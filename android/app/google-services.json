@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "257246175722",
+    "project_id": "king-and-queen-assistant",
+    "storage_bucket": "king-and-queen-assistant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257246175722:android:ee617284ccff4834a99293",
+        "android_client_info": {
+          "package_name": "com.example.careofbeauty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257246175722-rd82ig8ehkn8419qnasrojcp5gm0ak6i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMZ6Srp6f0BWy1cSmA1DD1hASGLUuMnX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257246175722-rd82ig8ehkn8419qnasrojcp5gm0ak6i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
