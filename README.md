@@ -1,16 +1,12 @@
 # careofbeauty
 
-A new Flutter project.
+A new e-commerce template flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is made for an imaginary e-commerce shop called Care of Bauty.
+All the products are enlisted here and registered or annonymous users and log in and check the products and their details.
+The products branded here are categorized as clothing, skin care, cosmetics and etc.
+The machine learning tool which is customly created decides your skin tone and based on the derrived skin tone the app will suggest you the product colors that suits your skin.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This app is made on flutter and firebase.
