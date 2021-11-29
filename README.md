@@ -10,3 +10,7 @@ The products branded here are categorized as clothing, skin care, cosmetics and 
 The machine learning tool which is customly created decides your skin tone and based on the derrived skin tone the app will suggest you the product colors that suits your skin.
 
 This app is made on flutter and firebase.
+
+## Updates
+The tflite flutter package has gone obsolite so we need to update the machine learning part of the code.
+Also the toast package is showing some trouble so that needs to be fixed as well.
