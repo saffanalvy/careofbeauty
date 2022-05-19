@@ -1,10 +1,12 @@
 import 'dart:math';
-import 'package:careofbeauty/screens/drawer/mainDrawer.dart';
-import 'package:careofbeauty/screens/products/productDetail2.dart';
+import 'package:careofbeauty/screens/drawer/main_drawer.dart';
+import 'package:careofbeauty/screens/products/product_detail2.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProblemAndSolutionHome extends StatefulWidget {
+  const ProblemAndSolutionHome({Key? key}) : super(key: key);
+
   @override
   _ProblemAndSolutionHomeState createState() => _ProblemAndSolutionHomeState();
 }
@@ -20,9 +22,9 @@ class _ProblemAndSolutionHomeState extends State<ProblemAndSolutionHome> {
       appBar: AppBar(
         backgroundColor: Colors.amber[400],
         elevation: 0.0,
-        title: Text("Problem & Solution"),
+        title: const Text("Problem & Solution"),
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       body: Column(
         children: [
           //Calling P&S filter menu
@@ -49,7 +51,7 @@ class _ProblemAndSolutionHomeState extends State<ProblemAndSolutionHome> {
                   name: pName,
                   price: pPrice,
                   tag: pProductTag,
-                  color: color,
+                  color: color!,
                   details: pDetails,
                 ));
         Navigator.of(context).push(route);
@@ -59,7 +61,7 @@ class _ProblemAndSolutionHomeState extends State<ProblemAndSolutionHome> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               height: 158.0,
               width: 160.0,
               decoration: BoxDecoration(
@@ -76,10 +78,10 @@ class _ProblemAndSolutionHomeState extends State<ProblemAndSolutionHome> {
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
 
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       },
                       errorBuilder: (context, error, stackTrace) =>
-                          Icon(Icons.error),
+                          const Icon(Icons.error),
                     )),
               ),
             ),
@@ -87,12 +89,12 @@ class _ProblemAndSolutionHomeState extends State<ProblemAndSolutionHome> {
               padding: const EdgeInsets.symmetric(vertical: 20.0 / 4.0),
               child: Text(
                 pName,
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
             Text(
               "Tk. " + pPrice.toString() + "/-",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -137,7 +139,7 @@ class _ProblemAndSolutionHomeState extends State<ProblemAndSolutionHome> {
                   color: selectedIndex == index ? Colors.black : Colors.grey),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20.0 / 4.0),
+              margin: const EdgeInsets.only(top: 20.0 / 4.0),
               height: 2.0,
               width: (categories[index].length.toDouble()) * 5.0,
               color: selectedIndex == index ? Colors.amber : Colors.transparent,
@@ -175,11 +177,12 @@ class _ProblemAndSolutionHomeState extends State<ProblemAndSolutionHome> {
         child: StreamBuilder(
             stream: query,
             builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapShot) {
-              if (streamSnapShot.connectionState == ConnectionState.waiting)
-                return Text("Loading...");
+              if (streamSnapShot.connectionState == ConnectionState.waiting) {
+                return const Text("Loading...");
+              }
               return GridView.builder(
-                  itemCount: streamSnapShot.data.docs.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  itemCount: streamSnapShot.data!.docs.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 20.0,
                     crossAxisSpacing: 20.0,
@@ -188,12 +191,12 @@ class _ProblemAndSolutionHomeState extends State<ProblemAndSolutionHome> {
                   itemBuilder: (context, index) {
                     return gridViewSingleItem(
                         context,
-                        streamSnapShot.data.docs[index]['url'],
-                        streamSnapShot.data.docs[index]['id'],
-                        streamSnapShot.data.docs[index]['name'],
-                        streamSnapShot.data.docs[index]['price'],
-                        streamSnapShot.data.docs[index]['product_tag'],
-                        streamSnapShot.data.docs[index]['details']);
+                        streamSnapShot.data!.docs[index]['url'],
+                        streamSnapShot.data!.docs[index]['id'],
+                        streamSnapShot.data!.docs[index]['name'],
+                        streamSnapShot.data!.docs[index]['price'],
+                        streamSnapShot.data!.docs[index]['product_tag'],
+                        streamSnapShot.data!.docs[index]['details']);
                   });
             }),
       ),

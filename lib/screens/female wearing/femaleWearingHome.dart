@@ -1,5 +1,5 @@
-import 'package:careofbeauty/screens/drawer/mainDrawer.dart';
-import 'package:careofbeauty/screens/products/productDetail.dart';
+import 'package:careofbeauty/screens/drawer/main_drawer.dart';
+import 'package:careofbeauty/screens/products/product_detail.dart';
 import 'package:careofbeauty/screens/skintone/skintone.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:careofbeauty/services/toast.dart';
 
 class FemaleWearingHome extends StatefulWidget {
+  const FemaleWearingHome({Key? key}) : super(key: key);
   @override
   _FemaleWearingHomeState createState() => _FemaleWearingHomeState();
 }
@@ -54,17 +55,17 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
   String selectedSkinTone = "All";
   bool _colorMode = false;
   bool _skinToneMode = false;
-  String _skinTone;
+  String _skinTone = "";
 
   //Getting skin tone from database
   getSkinTone() async {
     try {
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .get()
           .then((value) {
-        value.data().forEach((key, value) {
+        value.data()?.forEach((key, value) {
           if (key == 'skintone') {
             setState(() {
               _skinTone = value;
@@ -73,7 +74,7 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
         });
       });
     } catch (e) {
-      toast(e.message);
+      toast(e.toString());
     }
   }
 
@@ -89,16 +90,16 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
       appBar: AppBar(
         backgroundColor: Colors.amber[400],
         elevation: 0.0,
-        title: Text("Female Wearing"),
+        title: const Text("Female Wearing"),
         actions: [
           IconButton(
-              icon: Icon(Icons.filter_list_alt),
+              icon: const Icon(Icons.filter_list_alt),
               onPressed: () {
                 showBottomFilterMenu();
               }.call),
         ],
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       body: Column(
         children: [
           //Calling Female Wearing filter menu
@@ -139,7 +140,7 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               height: 158.0,
               width: 160.0,
               decoration: BoxDecoration(
@@ -156,10 +157,10 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
 
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       },
                       errorBuilder: (context, error, stackTrace) =>
-                          Icon(Icons.error),
+                          const Icon(Icons.error),
                     )),
               ),
             ),
@@ -167,12 +168,12 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
               padding: const EdgeInsets.symmetric(vertical: 20.0 / 4.0),
               child: Text(
                 pName,
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
             Text(
               "Tk. " + pPrice.toString() + "/-",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -217,7 +218,7 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                   color: selectedIndex == index ? Colors.black : Colors.grey),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20.0 / 4.0),
+              margin: const EdgeInsets.only(top: 20.0 / 4.0),
               height: 2.0,
               width: (categories[index].length.toDouble()) * 5.0,
               color: selectedIndex == index ? Colors.amber : Colors.transparent,
@@ -231,7 +232,7 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
   //Grid View of Female Wearing Products
   Expanded femaleWearingGridView() {
     //Query variable
-    Stream<QuerySnapshot> finalQuery;
+    late Stream<QuerySnapshot> finalQuery;
 
     //Setting up final query for Filter: Color
     if (selectedFemaleColors != "All" && selectedSkinTone == "All") {
@@ -378,11 +379,12 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
         child: StreamBuilder(
             stream: query,
             builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapShot) {
-              if (streamSnapShot.connectionState == ConnectionState.waiting)
-                return Text("Loading...");
+              if (streamSnapShot.connectionState == ConnectionState.waiting) {
+                return const Text("Loading...");
+              }
               return GridView.builder(
-                  itemCount: streamSnapShot.data.docs.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  itemCount: streamSnapShot.data!.docs.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 20.0,
                     crossAxisSpacing: 20.0,
@@ -391,13 +393,13 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                   itemBuilder: (context, index) {
                     return gridViewSingleItem(
                         context,
-                        streamSnapShot.data.docs[index]['url'],
-                        streamSnapShot.data.docs[index]['id'],
-                        streamSnapShot.data.docs[index]['name'],
-                        streamSnapShot.data.docs[index]['price'],
-                        streamSnapShot.data.docs[index]['colorcode'],
-                        streamSnapShot.data.docs[index]['color'],
-                        streamSnapShot.data.docs[index]['details']);
+                        streamSnapShot.data!.docs[index]['url'],
+                        streamSnapShot.data!.docs[index]['id'],
+                        streamSnapShot.data!.docs[index]['name'],
+                        streamSnapShot.data!.docs[index]['price'],
+                        streamSnapShot.data!.docs[index]['colorcode'],
+                        streamSnapShot.data!.docs[index]['color'],
+                        streamSnapShot.data!.docs[index]['details']);
                   });
             }),
       ),
@@ -413,12 +415,13 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             return Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
               child: Column(
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   //Dropdown Menu Filter by
-                  Text(
+                  const Text(
                     "Filter by",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -432,9 +435,9 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                       height: 2,
                       color: Colors.amber,
                     ),
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       setState(() {
-                        selectedFilterOptions = newValue;
+                        selectedFilterOptions = newValue!;
                         switch (newValue) {
                           case "All":
                             _colorMode = false;
@@ -465,9 +468,9 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                   ),
 
                   //Dropdown Menu Color
-                  SizedBox(height: 20),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  const Text(
                     "Color",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -483,9 +486,9 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                         height: 2,
                         color: Colors.amber,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          selectedFemaleColors = newValue;
+                          selectedFemaleColors = newValue!;
                         });
                         Navigator.of(context).pop();
                       },
@@ -500,9 +503,9 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                   ),
 
                   //Dropdown Menu Skin Tone
-                  SizedBox(height: 20),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  const Text(
                     "Skin Tone",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -518,9 +521,9 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                         height: 2,
                         color: Colors.amber,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          selectedSkinTone = newValue;
+                          selectedSkinTone = newValue!;
                         });
                         Navigator.of(context).pop();
                       },
@@ -535,13 +538,13 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                   ),
 
                   //Select Skin Tone from Photo
-                  SizedBox(height: 20),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  const Text(
                     "Skin Tone From Photo",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.amber),
                     onPressed: () {
@@ -565,12 +568,12 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                     },
                     child: _skinTone != "None"
                         ? Text("Set Skin Tone: " + _skinTone)
-                        : Text("Set Skin Tone"),
+                        : const Text("Set Skin Tone"),
                   ),
 
-                  SizedBox(height: 40),
-                  Divider(height: 1, thickness: 3, color: Colors.grey),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 40),
+                  const Divider(height: 1, thickness: 3, color: Colors.grey),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.amber),
                     onPressed: () {
@@ -583,7 +586,7 @@ class _FemaleWearingHomeState extends State<FemaleWearingHome> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: Text("Clear Filter"),
+                    child: const Text("Clear Filter"),
                   ),
                 ],
               ),

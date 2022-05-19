@@ -1,5 +1,5 @@
 import 'package:careofbeauty/screens/female%20wearing/femaleWearingHome.dart';
-import 'package:careofbeauty/screens/drawer/mainDrawer.dart';
+import 'package:careofbeauty/screens/drawer/main_drawer.dart';
 import 'package:careofbeauty/screens/home/homeGridItems.dart';
 import 'package:careofbeauty/screens/makeup%20kit/makeUpKitHome.dart';
 import 'package:careofbeauty/screens/male%20wearing/maleWearingHome.dart';
@@ -8,6 +8,7 @@ import 'package:careofbeauty/screens/skin%20care/skinCareHome.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
@@ -28,9 +29,9 @@ class _HomeState extends State<Home> {
         // ],
         backgroundColor: Colors.amber[400],
         elevation: 0.0,
-        title: Text('Home'),
+        title: const Text('Home'),
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       body: GridView.count(
         crossAxisCount: 1,
         childAspectRatio: 3.0,
@@ -41,7 +42,7 @@ class _HomeState extends State<Home> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MaleWearingHome(),
+                  builder: (context) => const MaleWearingHome(),
                 ),
               );
             },
@@ -55,7 +56,7 @@ class _HomeState extends State<Home> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FemaleWearingHome(),
+                  builder: (context) => const FemaleWearingHome(),
                 ),
               );
             },
@@ -68,7 +69,7 @@ class _HomeState extends State<Home> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SkinCareHome(),
+                  builder: (context) => const SkinCareHome(),
                 ),
               );
             },
@@ -81,7 +82,7 @@ class _HomeState extends State<Home> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MakeUpKitHome(),
+                  builder: (context) => const MakeUpKitHome(),
                 ),
               );
             },
@@ -94,7 +95,7 @@ class _HomeState extends State<Home> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProblemAndSolutionHome(),
+                  builder: (context) => const ProblemAndSolutionHome(),
                 ),
               );
             },

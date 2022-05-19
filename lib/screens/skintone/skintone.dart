@@ -4,31 +4,31 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tflite/tflite.dart';
 import 'package:careofbeauty/services/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:careofbeauty/screens/drawer/mainDrawer.dart';
+import 'package:careofbeauty/screens/drawer/main_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SkinTone extends StatefulWidget {
-  const SkinTone({Key key}) : super(key: key);
+  const SkinTone({Key? key}) : super(key: key);
 
   @override
   _SkinToneState createState() => _SkinToneState();
 }
 
 class _SkinToneState extends State<SkinTone> {
-  File _image;
-  List _outputs;
+  File? _image;
+  List? _outputs;
   bool _loading = false;
-  String _skinTone;
+  String _skinTone = "";
 
   //Getting skin tone from database
   getSkinTone() async {
     try {
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .get()
           .then((value) {
-        value.data().forEach((key, value) {
+        value.data()?.forEach((key, value) {
           if (key == 'skintone') {
             setState(() {
               _skinTone = value;
@@ -37,7 +37,7 @@ class _SkinToneState extends State<SkinTone> {
         });
       });
     } catch (e) {
-      toast(e.message);
+      toast(e.toString());
     }
   }
 
@@ -61,7 +61,7 @@ class _SkinToneState extends State<SkinTone> {
         asynch: true);
     setState(() {
       _loading = false;
-      _outputs = output;
+      _outputs = output!;
     });
   }
 
@@ -74,7 +74,7 @@ class _SkinToneState extends State<SkinTone> {
       _image = File(image.path);
     });
 
-    classifyImage(_image);
+    classifyImage(_image!);
   }
 
   //Selecting photo from camera
@@ -86,7 +86,7 @@ class _SkinToneState extends State<SkinTone> {
       _image = File(image.path);
     });
 
-    classifyImage(_image);
+    classifyImage(_image!);
   }
 
   @override
@@ -111,14 +111,14 @@ class _SkinToneState extends State<SkinTone> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detect Skin Tone"),
+        title: const Text("Detect Skin Tone"),
         backgroundColor: Colors.amber[400],
         elevation: 0.0,
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       body: Column(
         children: [
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           //Image Display
           Container(
@@ -126,7 +126,7 @@ class _SkinToneState extends State<SkinTone> {
                 ? Container(
                     height: 350,
                     width: 350,
-                    child: Center(
+                    child: const Center(
                       child: CircularProgressIndicator(
                         backgroundColor: Colors.amber,
                       ),
@@ -137,12 +137,13 @@ class _SkinToneState extends State<SkinTone> {
                         ? Container(
                             height: 350,
                             width: 350,
-                            child: Center(child: Text("No picture selected")))
+                            child: const Center(
+                                child: Text("No picture selected")))
                         : Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             height: 350,
                             width: 350,
-                            child: Image.file(_image)),
+                            child: Image.file(_image!)),
                   ),
           ),
 
@@ -150,21 +151,21 @@ class _SkinToneState extends State<SkinTone> {
           Center(
             child: _outputs != null
                 ? Text("Your skin tone: " +
-                    _outputs[0][
+                    _outputs![0][
                         "label"]) //Setting the derived Skin label from Skin Tone model
                 : _skinTone != null
                     ? Text("Your skin tone: " + _skinTone)
-                    : Text("Loading..."),
+                    : const Text("Loading..."),
           ),
 
-          SizedBox(height: 10),
-          Divider(
+          const SizedBox(height: 10),
+          const Divider(
             height: 0.5,
             thickness: 2,
             color: Colors.grey,
           ),
 
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           //Set Image Buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -172,12 +173,12 @@ class _SkinToneState extends State<SkinTone> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Colors.amber),
                 onPressed: pickImageFromCamera,
-                child: Text("Take Selfie"),
+                child: const Text("Take Selfie"),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Colors.amber),
                 onPressed: pickImageFromGallery,
-                child: Text("Pick from Gallery"),
+                child: const Text("Pick from Gallery"),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Colors.amber),
@@ -188,19 +189,19 @@ class _SkinToneState extends State<SkinTone> {
                     _loading = false;
                   });
                 },
-                child: Text("Clear"),
+                child: const Text("Clear"),
               ),
             ],
           ),
 
-          SizedBox(height: 10),
-          Divider(
+          const SizedBox(height: 10),
+          const Divider(
             height: 0.5,
             thickness: 2,
             color: Colors.grey,
           ),
 
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           Center(
             child: ElevatedButton(
@@ -214,16 +215,16 @@ class _SkinToneState extends State<SkinTone> {
                 try {
                   await FirebaseFirestore.instance
                       .collection("users")
-                      .doc(FirebaseAuth.instance.currentUser.uid)
-                      .update({'skintone': _outputs[0]["label"]});
-                  _skinTone = _outputs[0]["label"];
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .update({'skintone': _outputs![0]["label"]});
+                  _skinTone = _outputs![0]["label"];
                   toast("Skin tone saved");
                   Navigator.of(context).pop();
                 } catch (e) {
-                  toast(e.message);
+                  toast(e.toString());
                 }
               },
-              child: Text("Set Skin Tone"),
+              child: const Text("Set Skin Tone"),
             ),
           ),
         ],

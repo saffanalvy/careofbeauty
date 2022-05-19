@@ -1,20 +1,20 @@
 import 'package:careofbeauty/services/authentication_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SignIn extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  const SignIn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final GlobalKey<FormState> _key = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Icon(Icons.person),
+            icon: const Icon(Icons.person),
             iconSize: 40.0,
             onPressed: () {
               context.read<AuthenticationService>().guestSignIn();
@@ -23,15 +23,15 @@ class SignIn extends StatelessWidget {
         ],
         backgroundColor: Colors.amber[400],
         elevation: 0.0,
-        title: Text('Welcome'),
+        title: const Text('Welcome'),
       ),
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image(
+          const Image(
             image: AssetImage('assets/image/logo.png'),
             fit: BoxFit.cover,
-            color: Color(0x070707),
+            color: Color(0x07070707),
             colorBlendMode: BlendMode.darken,
           ),
           Column(
@@ -51,51 +51,55 @@ class SignIn extends StatelessWidget {
                     ),
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         TextFormField(
-                          validator: (value) {
-                            if (value.isEmpty)
+                          validator: (val) {
+                            String value = val.toString();
+                            if (value.isEmpty) {
                               return "Email cannot be empty!";
-                            else if (!value.contains('@') ||
-                                !value.contains('.'))
+                            } else if (!value.contains('@') ||
+                                !value.contains('.')) {
                               return "Please input a valid email!";
-                            else
+                            } else {
                               return null;
+                            }
                           },
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Email',
                           ),
                         ),
                         TextFormField(
-                          validator: (value) {
-                            if (value.isEmpty)
+                          validator: (val) {
+                            String value = val.toString();
+                            if (value.isEmpty) {
                               return "Password cannot be empty!";
-                            else if (value.length < 6)
+                            } else if (value.length < 6) {
                               return "Passowrd must be 6 characters!";
-                            else if (value.length > 15)
+                            } else if (value.length > 15) {
                               return "Password cannot be 16 characters long!";
-                            else
+                            } else {
                               return null;
+                            }
                           },
                           keyboardType: TextInputType.text,
                           obscureText: true,
                           controller: passwordController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: "Password",
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                if (_key.currentState.validate()) {
+                                if (_key.currentState!.validate()) {
                                   context
                                       .read<AuthenticationService>()
                                       .register(
@@ -104,12 +108,12 @@ class SignIn extends StatelessWidget {
                                               passwordController.text.trim());
                                 }
                               },
-                              child: Text('Register'),
+                              child: const Text('Register'),
                             ),
-                            SizedBox(width: 20.0),
+                            const SizedBox(width: 20.0),
                             ElevatedButton(
                               onPressed: () {
-                                if (_key.currentState.validate()) {
+                                if (_key.currentState!.validate()) {
                                   context.read<AuthenticationService>().signIn(
                                       email: emailController.text
                                           .trim()
@@ -117,7 +121,7 @@ class SignIn extends StatelessWidget {
                                       password: passwordController.text.trim());
                                 }
                               },
-                              child: Text('Sign In'),
+                              child: const Text('Sign In'),
                             ),
                           ],
                         ),

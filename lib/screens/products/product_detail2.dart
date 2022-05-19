@@ -1,42 +1,42 @@
-import 'package:careofbeauty/screens/drawer/mainDrawer.dart';
+import 'package:careofbeauty/screens/drawer/main_drawer.dart';
 import 'package:flutter/material.dart';
 
-class ProductDetail extends StatefulWidget {
+class ProductDetail2 extends StatefulWidget {
   final String image;
   final String id;
   final String name;
   final int price;
-  final int colorCode;
-  final String color;
+  final String tag;
+  final Color color;
   final String details;
 
-  ProductDetail(
-      {Key key,
-      this.image,
-      this.id,
-      this.name,
-      this.price,
-      this.colorCode,
-      this.color,
-      this.details})
+  const ProductDetail2(
+      {Key? key,
+      required this.image,
+      required this.id,
+      required this.name,
+      required this.price,
+      required this.tag,
+      required this.color,
+      required this.details})
       : super(key: key);
 
   @override
-  _ProductDetailState createState() => _ProductDetailState();
+  _ProductDetail2State createState() => _ProductDetail2State();
 }
 
-class _ProductDetailState extends State<ProductDetail> {
+class _ProductDetail2State extends State<ProductDetail2> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(widget.colorCode),
+      backgroundColor: widget.color,
       appBar: AppBar(
-        backgroundColor: Color(widget.colorCode),
+        backgroundColor: widget.color,
         elevation: 0.0,
-        title: Text("Detail"),
+        title: const Text("Detail"),
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -50,7 +50,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     padding: EdgeInsets.only(
                         top: size.height * 0.12, left: 20.0, right: 20.0),
                     //height: 500,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(24.0),
@@ -61,37 +61,14 @@ class _ProductDetailState extends State<ProductDetail> {
                       children: [
                         Row(
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Color"),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 20 / 4, right: 20 / 2),
-                                  padding: EdgeInsets.all(2.5),
-                                  height: 24,
-                                  width: 24,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: Color(widget.colorCode),
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            const Text("Product: "),
                             Container(
-                              margin: EdgeInsets.only(top: 20, right: 20 / 2),
-                              padding: EdgeInsets.all(2.5),
+                              margin: const EdgeInsets.only(right: 20 / 2),
+                              padding: const EdgeInsets.all(2.5),
                               child: Text(
-                                "${widget.color}",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                widget.tag.toUpperCase(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ],
@@ -99,8 +76,8 @@ class _ProductDetailState extends State<ProductDetail> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: Text(
-                            "${widget.details}",
-                            style: TextStyle(height: 1.5),
+                            widget.details,
+                            style: const TextStyle(height: 1.5),
                           ),
                         ),
                         Padding(
@@ -111,11 +88,11 @@ class _ProductDetailState extends State<ProductDetail> {
                             child: FlatButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18)),
-                              color: Color(widget.colorCode),
+                              color: widget.color,
                               onPressed: () {},
                               child: Text(
                                 "Add to Cart".toUpperCase(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
@@ -134,15 +111,15 @@ class _ProductDetailState extends State<ProductDetail> {
                       children: [
                         Column(
                           children: [
-                            Text(
+                            const Text(
                               "Product Name",
                               style: TextStyle(color: Colors.white),
                             ),
                             Text(
-                              "${widget.name}",
+                              widget.name,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4
+                                  .headline4!
                                   .copyWith(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -150,32 +127,32 @@ class _ProductDetailState extends State<ProductDetail> {
                           ],
                         ),
 
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
                         //Product Price and Image
                         Row(
                           children: [
                             RichText(
                               text: TextSpan(children: [
-                                TextSpan(text: "Price\n"),
+                                const TextSpan(text: "Price\n"),
                                 TextSpan(
-                                  text: "Tk. " + "${widget.price}" + "/-",
+                                  text: "Tk. ${widget.price}/-",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline4
+                                      .headline4!
                                       .copyWith(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                 )
                               ]),
                             ),
-                            SizedBox(width: 20.0),
+                            const SizedBox(width: 20.0),
                             Expanded(
                                 child: ClipRRect(
                               borderRadius: BorderRadius.circular(24),
                               child: Hero(
                                 tag: widget.id,
                                 child: Image.network(
-                                  "${widget.image}",
+                                  widget.image,
                                   fit: BoxFit.contain,
                                 ),
                               ),

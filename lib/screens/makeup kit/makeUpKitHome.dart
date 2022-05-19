@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:careofbeauty/screens/drawer/mainDrawer.dart';
-import 'package:careofbeauty/screens/products/productDetail.dart';
-import 'package:careofbeauty/screens/products/productDetail2.dart';
+import 'package:careofbeauty/screens/drawer/main_drawer.dart';
+import 'package:careofbeauty/screens/products/product_detail.dart';
+import 'package:careofbeauty/screens/products/product_detail2.dart';
 import 'package:careofbeauty/screens/skintone/skintone.dart';
 import 'package:careofbeauty/services/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MakeUpKitHome extends StatefulWidget {
+  const MakeUpKitHome({Key? key}) : super(key: key);
+
   @override
   _MakeUpKitHomeState createState() => _MakeUpKitHomeState();
 }
@@ -36,17 +38,17 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
 
   String selectedLipStickColor = "All";
   String selectedSkinTone = "All";
-  String _skinTone;
+  String _skinTone = "";
 
   //Getting skin tone from database
   getSkinTone() async {
     try {
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .get()
           .then((value) {
-        value.data().forEach((key, value) {
+        value.data()?.forEach((key, value) {
           if (key == 'skintone') {
             setState(() {
               _skinTone = value;
@@ -55,7 +57,7 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
         });
       });
     } catch (e) {
-      toast(e.message);
+      toast(e.toString());
     }
   }
 
@@ -71,11 +73,11 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
       appBar: AppBar(
         backgroundColor: Colors.amber[400],
         elevation: 0.0,
-        title: Text("Makeup Kit"),
+        title: const Text("Makeup Kit"),
         actions: [
           selectedIndex != 3
               ? IconButton(
-                  icon: Icon(Icons.filter_list_alt),
+                  icon: const Icon(Icons.filter_list_alt),
                   onPressed: () {
                     if (selectedIndex == 0 || selectedIndex == 1) {
                       showBottomFilterMenu();
@@ -88,7 +90,7 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
               : Container(),
         ],
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       body: Column(
         children: [
           //Calling Makeup kit filter menu
@@ -129,12 +131,12 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
       String pColor,
       String pDetails,
       BuildContext context) {
-    Color color;
+    Color? color;
     if (pColor == "Fair" || pColor == "Medium" || pColor == "Deep") {
       color = Colors.primaries[Random().nextInt(Colors.primaries.length)]
           [Random().nextInt(9) * 100];
       return lipstickOrNotSingleItem(
-          pUrl, pId, pName, pPrice, pCodeNTag, color, pDetails, context);
+          pUrl, pId, pName, pPrice, pCodeNTag, color!, pDetails, context);
     } else {
       return lipstickOrNotSingleItem2(
           pUrl, pId, pName, pPrice, pCodeNTag, pColor, pDetails, context);
@@ -170,7 +172,7 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               height: 158.0,
               width: 160.0,
               decoration: BoxDecoration(
@@ -187,10 +189,10 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
 
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       },
                       errorBuilder: (context, error, stackTrace) =>
-                          Icon(Icons.error),
+                          const Icon(Icons.error),
                     )),
               ),
             ),
@@ -198,12 +200,12 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
               padding: const EdgeInsets.symmetric(vertical: 20.0 / 4.0),
               child: Text(
                 pName,
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
             Text(
               "Tk. " + pPrice.toString() + "/-",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -240,7 +242,7 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               height: 158.0,
               width: 160.0,
               decoration: BoxDecoration(
@@ -257,10 +259,10 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
 
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       },
                       errorBuilder: (context, error, stackTrace) =>
-                          Icon(Icons.error),
+                          const Icon(Icons.error),
                     )),
               ),
             ),
@@ -268,12 +270,12 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
               padding: const EdgeInsets.symmetric(vertical: 20.0 / 4.0),
               child: Text(
                 pName,
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
             Text(
               "Tk. " + pPrice.toString() + "/-",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -295,7 +297,7 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                   name: pName,
                   price: pPrice,
                   tag: pCodeNTag,
-                  color: color,
+                  color: color!,
                   details: pDetails,
                 ));
         Navigator.of(context).push(route);
@@ -305,7 +307,7 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               height: 158.0,
               width: 160.0,
               decoration: BoxDecoration(
@@ -322,10 +324,10 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
 
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       },
                       errorBuilder: (context, error, stackTrace) =>
-                          Icon(Icons.error),
+                          const Icon(Icons.error),
                     )),
               ),
             ),
@@ -333,12 +335,12 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
               padding: const EdgeInsets.symmetric(vertical: 20.0 / 4.0),
               child: Text(
                 pName,
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
             Text(
               "Tk. " + pPrice.toString() + "/-",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -387,7 +389,7 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                   color: selectedIndex == index ? Colors.black : Colors.grey),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20.0 / 4.0),
+              margin: const EdgeInsets.only(top: 20.0 / 4.0),
               height: 2.0,
               width: (categories[index].length.toDouble()) * 5.0,
               color: selectedIndex == index ? Colors.amber : Colors.transparent,
@@ -459,11 +461,12 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
         child: StreamBuilder(
             stream: query,
             builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapShot) {
-              if (streamSnapShot.connectionState == ConnectionState.waiting)
-                return Text("Loading...");
+              if (streamSnapShot.connectionState == ConnectionState.waiting) {
+                return const Text("Loading...");
+              }
               return GridView.builder(
-                  itemCount: streamSnapShot.data.docs.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  itemCount: streamSnapShot.data!.docs.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 20.0,
                     crossAxisSpacing: 20.0,
@@ -473,33 +476,33 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                     if (selectedIndex == 0 || selectedIndex == 1) {
                       return gridViewSingleItem(
                           context,
-                          streamSnapShot.data.docs[index]['url'],
-                          streamSnapShot.data.docs[index]['id'],
-                          streamSnapShot.data.docs[index]['name'],
-                          streamSnapShot.data.docs[index]['price'],
-                          streamSnapShot.data.docs[index]['search_tag'],
-                          streamSnapShot.data.docs[index]['color'],
-                          streamSnapShot.data.docs[index]['details']);
+                          streamSnapShot.data!.docs[index]['url'],
+                          streamSnapShot.data!.docs[index]['id'],
+                          streamSnapShot.data!.docs[index]['name'],
+                          streamSnapShot.data!.docs[index]['price'],
+                          streamSnapShot.data!.docs[index]['search_tag'],
+                          streamSnapShot.data!.docs[index]['color'],
+                          streamSnapShot.data!.docs[index]['details']);
                     } else if (selectedIndex == 2) {
                       return gridViewSingleItem(
                           context,
-                          streamSnapShot.data.docs[index]['url'],
-                          streamSnapShot.data.docs[index]['id'],
-                          streamSnapShot.data.docs[index]['name'],
-                          streamSnapShot.data.docs[index]['price'],
-                          streamSnapShot.data.docs[index]['colorcode'],
-                          streamSnapShot.data.docs[index]['color'],
-                          streamSnapShot.data.docs[index]['details']);
+                          streamSnapShot.data!.docs[index]['url'],
+                          streamSnapShot.data!.docs[index]['id'],
+                          streamSnapShot.data!.docs[index]['name'],
+                          streamSnapShot.data!.docs[index]['price'],
+                          streamSnapShot.data!.docs[index]['colorcode'],
+                          streamSnapShot.data!.docs[index]['color'],
+                          streamSnapShot.data!.docs[index]['details']);
                     } else {
                       return gridViewSingleItem(
                           context,
-                          streamSnapShot.data.docs[index]['url'],
-                          streamSnapShot.data.docs[index]['id'],
-                          streamSnapShot.data.docs[index]['name'],
-                          streamSnapShot.data.docs[index]['price'],
-                          streamSnapShot.data.docs[index]['search_tag'],
+                          streamSnapShot.data!.docs[index]['url'],
+                          streamSnapShot.data!.docs[index]['id'],
+                          streamSnapShot.data!.docs[index]['name'],
+                          streamSnapShot.data!.docs[index]['price'],
+                          streamSnapShot.data!.docs[index]['search_tag'],
                           "",
-                          streamSnapShot.data.docs[index]['details']);
+                          streamSnapShot.data!.docs[index]['details']);
                     }
                   });
             }),
@@ -516,12 +519,13 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             return Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
               child: Column(
                 children: [
                   //Dropdown Menu Skin Tone
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     "Skin Tone",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -535,9 +539,9 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                       height: 2,
                       color: Colors.amber,
                     ),
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       setState(() {
-                        selectedSkinTone = newValue;
+                        selectedSkinTone = newValue!;
                       });
                       Navigator.of(context).pop();
                     },
@@ -551,13 +555,13 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                   ),
 
                   //Select Skin Tone from Photo
-                  SizedBox(height: 20),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  const Text(
                     "Skin Tone From Photo",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.amber),
                     onPressed: () {
@@ -577,12 +581,12 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                     },
                     child: _skinTone != "None"
                         ? Text("Set Skin Tone: " + _skinTone)
-                        : Text("Set Skin Tone"),
+                        : const Text("Set Skin Tone"),
                   ),
 
-                  SizedBox(height: 40),
-                  Divider(height: 1, thickness: 3, color: Colors.grey),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 40),
+                  const Divider(height: 1, thickness: 3, color: Colors.grey),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.amber),
                     onPressed: () {
@@ -591,7 +595,7 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: Text("Clear Filter"),
+                    child: const Text("Clear Filter"),
                   ),
                 ],
               ),
@@ -611,12 +615,13 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             return Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
               child: Column(
                 children: [
                   //Dropdown Menu Color
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     "Color",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
@@ -630,9 +635,9 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                       height: 2,
                       color: Colors.amber,
                     ),
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       setState(() {
-                        selectedLipStickColor = newValue;
+                        selectedLipStickColor = newValue!;
                       });
                       Navigator.of(context).pop();
                     },
@@ -645,9 +650,9 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                     }).toList(),
                   ),
 
-                  SizedBox(height: 40),
-                  Divider(height: 1, thickness: 3, color: Colors.grey),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 40),
+                  const Divider(height: 1, thickness: 3, color: Colors.grey),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.amber),
                     onPressed: () {
@@ -656,7 +661,7 @@ class _MakeUpKitHomeState extends State<MakeUpKitHome> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: Text("Clear Filter"),
+                    child: const Text("Clear Filter"),
                   ),
                 ],
               ),

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MainDrawer extends StatelessWidget {
+  const MainDrawer({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -22,11 +23,11 @@ class MainDrawer extends StatelessWidget {
             children: [
               //Home
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.home,
                   color: Colors.black,
                 ),
-                title: Text(
+                title: const Text(
                   "Home",
                   style: TextStyle(
                     fontSize: 18.0,
@@ -38,17 +39,17 @@ class MainDrawer extends StatelessWidget {
                       context, MaterialPageRoute(builder: (context) => Home()));
                 },
               ),
-              Divider(
+              const Divider(
                 height: 0.5,
                 color: Colors.black,
               ),
               //Male Wearing
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.menu_open,
                   color: Colors.black,
                 ),
-                title: Text(
+                title: const Text(
                   "Male Wearing",
                   style: TextStyle(
                     fontSize: 18.0,
@@ -64,11 +65,11 @@ class MainDrawer extends StatelessWidget {
               ),
               //Female Wearing
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.menu_open,
                   color: Colors.black,
                 ),
-                title: Text(
+                title: const Text(
                   "Female Wearing",
                   style: TextStyle(
                     fontSize: 18.0,
@@ -84,11 +85,11 @@ class MainDrawer extends StatelessWidget {
               ),
               //Skin Care
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.menu_open,
                   color: Colors.black,
                 ),
-                title: Text(
+                title: const Text(
                   "Skin Care",
                   style: TextStyle(
                     fontSize: 18.0,
@@ -102,11 +103,11 @@ class MainDrawer extends StatelessWidget {
               ),
               //Makeup Kit
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.menu_open,
                   color: Colors.black,
                 ),
-                title: Text(
+                title: const Text(
                   "Makeup Kit",
                   style: TextStyle(
                     fontSize: 18.0,
@@ -120,11 +121,11 @@ class MainDrawer extends StatelessWidget {
               ),
               //Problem & Solution
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.menu_open,
                   color: Colors.black,
                 ),
-                title: Text(
+                title: const Text(
                   "Problem & Solution",
                   style: TextStyle(
                     fontSize: 18.0,
@@ -138,17 +139,17 @@ class MainDrawer extends StatelessWidget {
                           builder: (context) => ProblemAndSolutionHome()));
                 },
               ),
-              Divider(
+              const Divider(
                 height: 0.5,
                 color: Colors.black,
               ),
               //Set Skin Tone
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.camera_alt,
                   color: Colors.black,
                 ),
-                title: Text(
+                title: const Text(
                   "Set Skin Tone",
                   style: TextStyle(
                     fontSize: 18.0,
@@ -162,11 +163,11 @@ class MainDrawer extends StatelessWidget {
               ),
               //Logout
               ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.logout,
                   color: Colors.black,
                 ),
-                title: Text(
+                title: const Text(
                   "Logout",
                   style: TextStyle(
                     fontSize: 18.0,
@@ -178,21 +179,21 @@ class MainDrawer extends StatelessWidget {
                   context.read<AuthenticationService>().signOut();
                 },
               ),
-              Divider(
+              const Divider(
                 height: 0.5,
                 color: Colors.black,
               ),
               //Username: email or guest
               ListTile(
-                title: FirebaseAuth.instance.currentUser.email != null
+                title: FirebaseAuth.instance.currentUser!.email != null
                     ? Text(
                         "Logged in as : " +
-                            FirebaseAuth.instance.currentUser.email,
-                        style: TextStyle(
+                            FirebaseAuth.instance.currentUser!.email.toString(),
+                        style: const TextStyle(
                           fontSize: 10.0,
                         ),
                       )
-                    : Text(
+                    : const Text(
                         "Logged in as : Guest",
                         style: TextStyle(
                           fontSize: 10.0,

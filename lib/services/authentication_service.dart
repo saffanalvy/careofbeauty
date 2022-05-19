@@ -7,7 +7,7 @@ class AuthenticationService {
 
   AuthenticationService(this._firebaseAuth);
 
-  Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   //Signing out
   Future<String> signOut() async {
@@ -16,16 +16,17 @@ class AuthenticationService {
       toast("Signed out");
       return "Signed out";
     } on FirebaseAuthException catch (e) {
-      toast(e.message);
-      return e.message;
+      toast(e.message.toString());
+      return e.message.toString();
     } catch (e) {
-      toast(e.message);
-      return e.message;
+      toast(e.toString());
+      return e.toString();
     }
   }
 
   //Singing in with Email
-  Future<String> signIn({String email, String password}) async {
+  Future<String> signIn(
+      {required String email, required String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -36,11 +37,11 @@ class AuthenticationService {
         toast("User not found");
         return "User not found";
       }
-      toast(e.message);
-      return e.message;
+      toast(e.message.toString());
+      return e.message.toString();
     } catch (e) {
-      toast(e.message);
-      return e.message;
+      toast(e.toString());
+      return e.toString();
     }
   }
 
@@ -50,35 +51,36 @@ class AuthenticationService {
       await _firebaseAuth.signInAnonymously();
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(_firebaseAuth.currentUser.uid)
+          .doc(_firebaseAuth.currentUser?.uid)
           .set({'skintone': 'None'});
       toast("Welcome guest");
       return "Welcome guest";
     } on FirebaseAuthException catch (e) {
-      toast(e.message);
-      return e.message;
+      toast(e.toString());
+      return e.toString();
     } catch (e) {
-      toast(e.message);
-      return e.message;
+      toast(e.toString());
+      return e.toString();
     }
   }
 
   //Regstering user with email
-  Future<String> register({String email, String password}) async {
+  Future<String> register(
+      {required String email, required String password}) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
 
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(_firebaseAuth.currentUser.uid)
+          .doc(_firebaseAuth.currentUser?.uid)
           .set({'skintone': 'None'});
 
       toast("Congratulations! Welcome " + email);
       return "Congratulations! Welcome " + email;
     } on FirebaseAuthException catch (e) {
-      toast(e.message);
-      return e.message;
+      toast(e.toString());
+      return e.toString();
     }
   }
 }
